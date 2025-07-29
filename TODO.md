@@ -1,1 +1,3 @@
-add some AI that generates the images and bios and such automatically so it's an infinite scroller? or make registration and have users add their own bios and stuff
+- add some AI that generates the images and bios and such automatically so it's an infinite scroller? or make registration and have users add their own bios and stuff
+- add cardstack component for swiping to result in new card shown
+- make card animation to work with arrow keys
