@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Oliver",
+    "city": "Austin",
+    "state": "TX",
+    "breed": "Orange Tabby",
+    "gender": "Male",
+    "age": 3,
+    "personality": "Playful, curious, and talks a lot",
+    "looking_for": "A cuddle buddy who shares snacks",
+    "bio": "Catch me knocking things off tables and stealing hearts.",
+    "image": "src/assets/cat_1.png"
+  },
+  {
+    "name": "Luna",
+    "city": "Portland",
+    "state": "OR",
+    "breed": "Silver Maine Coon",
+    "gender": "Female",
+    "age": 4,
+    "personality": "Mysterious, independent, loves nature walks",
+    "looking_for": "A chill lap to nap on",
+    "bio": "Don't let the fluff fool you. I'm deep, not dramatic.",
+    "image": "src/assets/cat_2.png"
+  },
+  {
+    "name": "Cleo",
+    "city": "Chicago",
+    "state": "IL",
+    "breed": "Calico",
+    "gender": "Female",
+    "age": 2,
+    "personality": "Sweet, affectionate, Netflix & nap queen",
+    "looking_for": "Someone to share warm laundry piles with",
+    "bio": "I purr loudly and judge gently.",
+    "image": "src/assets/cat_3.png"
+  },
+  {
+    "name": "Midnight",
+    "city": "Brooklyn",
+    "state": "NY",
+    "breed": "Bombay",
+    "gender": "Male",
+    "age": 5,
+    "personality": "Cool, confident, a bit aloof but loyal",
+    "looking_for": "An equal in charisma and style",
+    "bio": "I wear shades because my future's that bright.",
+    "image": "src/assets/cat_4.png"
+  }
+]
