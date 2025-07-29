@@ -2,7 +2,8 @@ import { motion, useAnimation } from "framer-motion";
 import type { PanInfo } from "framer-motion";
 import Buttons from "./Buttons";
 import Instruction from "./Instruction";
-import { useState } from "react";
+import { useCardStore } from "../stores/cardstore";
+import { useEffect } from "react";
 
 interface CardProps {
   catImage: string;
@@ -15,48 +16,38 @@ interface CardProps {
 }
 
 const Card = () => {
-  const [exitX, setExitX] = useState(0);
-  const controls = useAnimation();
+    const controls = useAnimation();
+    const { setControls, triggerLike, triggerDislike } = useCardStore();
 
-  const handleDragEnd = (_event: MouseEvent, info: PanInfo) => {
-    const threshold = 60;
-    const maxExitRotation = 30;
+    // Set controls in the store when the component mounts
+    useEffect(() => {
+      setControls(controls);
+    }, [controls, setControls]);
 
-    // Right swipe (like)
-    if (info.offset.x > threshold) {
-      setExitX(150);
-      controls.start({
-        x: 150,
-        opacity: 0,
-        rotateZ: maxExitRotation,
-        transition: { duration: 0.3, ease: "easeOut" },
-      });
-      console.log("you swiped Like");
+    const handleDragEnd = (_event: MouseEvent, info: PanInfo) => {
+      const threshold = 60;
 
+      // Right swipe (like)
+      if (info.offset.x > threshold) {
+        triggerLike();
+      }
       // Left swipe (dislike)
-    } else if (info.offset.x < -threshold) {
-      setExitX(-150);
-      controls.start({
-        x: -150,
-        opacity: 0,
-        rotateZ: -maxExitRotation,
-        transition: { duration: 0.3, ease: "easeOut" },
-      });
-      console.log("you swiped Nope");
-    } else {
-      // Return to center with a spring effect
-      controls.start({
-        x: 0,
-        opacity: 1,
-        rotateZ: 0,
-        transition: {
-          type: "spring",
-          stiffness: 300,
-          damping: 20,
-        },
-      });
-    }
-  };
+      else if (info.offset.x < -threshold) {
+        triggerDislike();
+      } else {
+        // Return to center with a spring effect
+        controls.start({
+          x: 0,
+          opacity: 1,
+          rotateZ: 0,
+          transition: {
+            type: "spring",
+            stiffness: 300,
+            damping: 20,
+          },
+        });
+      }
+    };
 
   return (
     <div className="flex justify-center items-center min-h-screen flex-col">

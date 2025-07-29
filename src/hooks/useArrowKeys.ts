@@ -1,29 +1,32 @@
 import { useEffect } from "react";
+import { useCardStore } from "../stores/cardstore";
 
-const useArrowKeys = (onButtonClick: (btnType: string) => void) => {
+const useArrowKeys = () => {
+  const { triggerLike, triggerDislike, triggerUndo } = useCardStore();
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
-        case "ArrowDown":
-          onButtonClick("undo");
+        case "ArrowRight":
+          console.log("right arrow pressed");
+          triggerLike();
           break;
         case "ArrowLeft":
-          onButtonClick("dislike");
+          console.log("left arrow pressed");
+          triggerDislike();
           break;
-        case "ArrowRight":
-          onButtonClick("like");
-          break;
-        default:
+        case "ArrowDown":
+          console.log("down arrow pressed");
+          triggerUndo();
           break;
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [onButtonClick]);
+  }, [triggerLike, triggerDislike, triggerUndo]);
 };
 
 export default useArrowKeys;
