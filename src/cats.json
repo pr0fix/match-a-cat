@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Oliver",
     "city": "Austin",
     "state": "TX",
@@ -12,6 +13,7 @@
     "image": "src/assets/cat_1.png"
   },
   {
+    "id": 2,
     "name": "Luna",
     "city": "Portland",
     "state": "OR",
@@ -24,6 +26,7 @@
     "image": "src/assets/cat_2.png"
   },
   {
+    "id": 3,
     "name": "Cleo",
     "city": "Chicago",
     "state": "IL",
@@ -36,6 +39,7 @@
     "image": "src/assets/cat_3.png"
   },
   {
+    "id": 4,
     "name": "Midnight",
     "city": "Brooklyn",
     "state": "NY",

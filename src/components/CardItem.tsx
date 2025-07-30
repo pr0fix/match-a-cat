@@ -13,12 +13,41 @@ interface CardProps {
 
 const CardItem = ({ card, onSwipeComplete }: CardProps) => {
   const controls = useAnimation();
-  const { setControls, triggerLike, triggerDislike } = useCardStore();
+  const {
+    setControls,
+    triggerLike,
+    triggerDislike,
+    undoPending,
+    lastUndoAction,
+  } = useCardStore();
 
   // Set controls in the store when the component mounts
   useEffect(() => {
     setControls(controls);
   }, [controls, setControls]);
+
+  useEffect(() => {
+    if (undoPending && lastUndoAction) {
+      controls.set({
+        x: lastUndoAction === "like" ? 150 : -150,
+        opacity: 0,
+        rotateZ: lastUndoAction === "like" ? 30 : -30,
+      });
+
+      controls.start({
+        x: 0,
+        opacity: 1,
+        rotateZ: 0,
+        transition: {
+          type: "spring",
+          stiffness: 300,
+          damping: 20,
+        },
+      });
+
+      useCardStore.setState({ undoPending: false, lastUndoAction: null });
+    }
+  }, [controls, undoPending, lastUndoAction]);
 
   const handleDragEnd = (_event: MouseEvent, info: PanInfo) => {
     const threshold = 60;
@@ -26,12 +55,10 @@ const CardItem = ({ card, onSwipeComplete }: CardProps) => {
     // Right swipe (like)
     if (info.offset.x > threshold) {
       triggerLike();
-      setTimeout(onSwipeComplete, 300);
     }
     // Left swipe (dislike)
     else if (info.offset.x < -threshold) {
       triggerDislike();
-      setTimeout(onSwipeComplete, 300);
     } else {
       // Return to center with a spring effect
       controls.start({

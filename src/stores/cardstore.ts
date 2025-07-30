@@ -9,6 +9,8 @@ interface CardState {
   dislikedCards: Card[];
   controls: ReturnType<typeof useAnimation> | null;
   previousActions: string[];
+  undoPending: boolean;
+  lastUndoAction: string | null;
 
   currentCard: Card | null;
 
@@ -30,6 +32,8 @@ export const useCardStore = create<CardState>((set, get) => ({
   controls: null,
   previousActions: [],
   currentCard: null,
+  undoPending: false,
+  lastUndoAction: null,
 
   setCards: (cards) => {
     const currentCard = cards.length > 0 ? cards[0] : null;
@@ -59,14 +63,16 @@ export const useCardStore = create<CardState>((set, get) => ({
       previousActions: [...state.previousActions, "like"],
       likedCards: [...state.likedCards, currentCard],
     }));
-    controls.start({
-      x: 150,
-      opacity: 0,
-      rotateZ: 30,
-      transition: { duration: 0.3, ease: "easeOut" },
-    });
-    console.log("you clicked Like");
-    console.log("liked cards after pressing YES:", get().likedCards);
+    controls
+      .start({
+        x: 150,
+        opacity: 0,
+        rotateZ: 30,
+        transition: { duration: 0.3, ease: "easeOut" },
+      })
+      .then(() => {
+        get().triggerNextCard();
+      });
   },
 
   triggerDislike: () => {
@@ -77,53 +83,57 @@ export const useCardStore = create<CardState>((set, get) => ({
       previousActions: [...state.previousActions, "dislike"],
       dislikedCards: [...state.dislikedCards, currentCard],
     }));
-    controls.start({
-      x: -150,
-      opacity: 0,
-      rotateZ: -30,
-      transition: { duration: 0.3, ease: "easeOut" },
-    });
-    console.log("you clicked Nope");
-    console.log("disliked cards after pressing NO:", get().dislikedCards);
+    controls
+      .start({
+        x: -150,
+        opacity: 0,
+        rotateZ: -30,
+        transition: { duration: 0.3, ease: "easeOut" },
+      })
+      .then(() => {
+        get().triggerNextCard();
+      });
   },
 
   triggerUndo: () => {
-    const { controls, previousActions } = get();
-    if (!controls) return;
+    const { previousActions } = get();
+    if (previousActions.length === 0) return;
 
-    if (previousActions.length > 0) {
-      const lastAction = previousActions[previousActions.length - 1];
+    const lastAction = previousActions[previousActions.length - 1];
 
-      set((state) => {
-        const newState: Partial<CardState> = {
-          previousActions: state.previousActions.slice(0, -1),
-        };
+    set({ undoPending: true, lastUndoAction: lastAction });
 
-        if (lastAction === "like" && state.likedCards.length > 0) {
-          newState.likedCards = state.likedCards.slice(0, -1);
-        } else if (lastAction === "dislike" && state.dislikedCards.length > 0) {
-          newState.dislikedCards = state.dislikedCards.slice(0, -1);
+    set((state) => {
+      const newState: Partial<CardState> = {
+        previousActions: state.previousActions.slice(0, -1),
+      };
+
+      let previousCard: Card | null = null;
+
+      if (lastAction === "like" && state.likedCards.length > 0) {
+        previousCard = state.likedCards[state.likedCards.length - 1];
+        newState.likedCards = state.likedCards.slice(0, -1);
+      } else if (lastAction === "dislike" && state.dislikedCards.length > 0) {
+        previousCard = state.dislikedCards[state.dislikedCards.length - 1];
+        newState.dislikedCards = state.dislikedCards.slice(0, -1);
+      }
+
+      if (previousCard) {
+        newState.currentCard = previousCard;
+
+        const cardIdx = state.cards.findIndex(
+          (card) => card.id === previousCard.id
+        );
+
+        if (cardIdx > 0) {
+          newState.currentCardIdx = cardIdx;
+        } else {
+          newState.currentCardIdx = Math.max(0, state.currentCardIdx - 1);
         }
+      }
 
-        return newState;
-      });
-
-      controls.start({
-        x: 0,
-        opacity: 1,
-        rotateZ: 0,
-        transition: {
-          type: "spring",
-          stiffness: 300,
-          damping: 20,
-        },
-      });
-      console.log("Undoing last action");
-    } else {
-      console.log("Nothing to undo");
-    }
-    console.log("disliked cards after undo", get().dislikedCards);
-    console.log("liked cards after undo", get().likedCards);
+      return newState;
+    });
   },
 
   triggerNextCard: () => {

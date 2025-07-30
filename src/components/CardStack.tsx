@@ -11,6 +11,7 @@ const CardStack = () => {
 
   useEffect(() => {
     const formattedCards: Card[] = catData.map((cat) => ({
+      id: cat.id,
       catImage: cat.image,
       name: cat.name,
       age: cat.age,

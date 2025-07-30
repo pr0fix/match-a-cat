@@ -8,15 +8,12 @@ const useArrowKeys = () => {
     const handleKeyDown = (event: KeyboardEvent) => {
       switch (event.key) {
         case "ArrowRight":
-          console.log("right arrow pressed");
           triggerLike();
           break;
         case "ArrowLeft":
-          console.log("left arrow pressed");
           triggerDislike();
           break;
         case "ArrowDown":
-          console.log("down arrow pressed");
           triggerUndo();
           break;
       }

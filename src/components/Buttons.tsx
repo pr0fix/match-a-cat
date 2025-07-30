@@ -1,7 +1,6 @@
 import { LuRotateCcw } from "react-icons/lu";
 import { FaXmark } from "react-icons/fa6";
 import { IoCheckmarkSharp } from "react-icons/io5";
-import useArrowKeys from "../hooks/useArrowKeys";
 import { useCardStore } from "../stores/cardStore";
 
 const UndoButton = () => {
@@ -47,8 +46,6 @@ const LikeButton = () => {
 };
 
 const Buttons = () => {
-  useArrowKeys();
-
   return (
     <div className="flex gap-4 justify-around absolute -bottom-8 left-0 right-0">
       <UndoButton />
