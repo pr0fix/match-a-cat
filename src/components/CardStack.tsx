@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Card } from "../types";
-import { useCardStore } from "../stores/cardstore";
+import { useCardStore } from "../stores/cardStore";
 import catData from "../cats.json";
 import { AnimatePresence } from "framer-motion";
 import CardItem from "../components/CardItem";
@@ -38,20 +38,38 @@ const CardStack = () => {
     }
   }, [currentCard]);
 
-  console.log("Current card index:", useCardStore.getState().currentCardIdx);
+  const cards = useCardStore.getState().cards;
+  const nextCardIdx = currentIndex + 1;
+  const nextCard = nextCardIdx < cards.length ? cards[nextCardIdx] : null;
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       {!currentCard && <div>No cards</div>}
-      <AnimatePresence>
-        {currentCard && (
-          <CardItem
-            key={currentIndex}
-            card={currentCard}
-            onSwipeComplete={triggerNextCard}
-          />
+      <div className="relative w-full max-w-sm">
+        {/* Next card positioned underneath */}
+        {nextCard && (
+          <div className="absolute inset-0 z-0">
+            <CardItem
+              key={`next-${nextCardIdx}`}
+              card={nextCard}
+              onSwipeComplete={() => {}}
+            />
+          </div>
         )}
-      </AnimatePresence>
+
+        {/* Current card on top */}
+        <AnimatePresence>
+          {currentCard && (
+            <div className="relative z-10">
+              <CardItem
+                key={currentIndex}
+                card={currentCard}
+                onSwipeComplete={triggerNextCard}
+              />
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

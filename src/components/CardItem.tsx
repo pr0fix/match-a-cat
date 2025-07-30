@@ -2,7 +2,7 @@ import { motion, useAnimation } from "framer-motion";
 import type { PanInfo } from "framer-motion";
 import Buttons from "./Buttons";
 import Instruction from "./Instruction";
-import { useCardStore } from "../stores/cardstore";
+import { useCardStore } from "../stores/cardStore";
 import { useEffect } from "react";
 import type { Card } from "../types";
 
@@ -14,7 +14,7 @@ interface CardProps {
 const CardItem = ({ card, onSwipeComplete }: CardProps) => {
   const controls = useAnimation();
   const { setControls, triggerLike, triggerDislike } = useCardStore();
-  console.log(card);
+
   // Set controls in the store when the component mounts
   useEffect(() => {
     setControls(controls);

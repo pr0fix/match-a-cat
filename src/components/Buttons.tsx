@@ -2,7 +2,7 @@ import { LuRotateCcw } from "react-icons/lu";
 import { FaXmark } from "react-icons/fa6";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import useArrowKeys from "../hooks/useArrowKeys";
-import { useCardStore } from "../stores/cardstore";
+import { useCardStore } from "../stores/cardStore";
 
 const UndoButton = () => {
   const triggerUndo = useCardStore((state) => state.triggerUndo);

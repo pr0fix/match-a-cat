@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useCardStore } from "../stores/cardstore";
+import { useCardStore } from "../stores/cardStore";
 
 const useArrowKeys = () => {
   const { triggerLike, triggerDislike, triggerUndo } = useCardStore();

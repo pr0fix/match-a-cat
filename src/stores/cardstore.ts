@@ -52,10 +52,13 @@ export const useCardStore = create<CardState>((set, get) => ({
   },
 
   triggerLike: () => {
-    const { controls } = get();
-    if (!controls) return;
+    const { controls, currentCard } = get();
+    if (!controls || !currentCard) return;
 
-    set((state) => ({ previousActions: [...state.previousActions, "like"] }));
+    set((state) => ({
+      previousActions: [...state.previousActions, "like"],
+      likedCards: [...state.likedCards, currentCard],
+    }));
     controls.start({
       x: 150,
       opacity: 0,
@@ -63,14 +66,16 @@ export const useCardStore = create<CardState>((set, get) => ({
       transition: { duration: 0.3, ease: "easeOut" },
     });
     console.log("you clicked Like");
+    console.log("liked cards after pressing YES:", get().likedCards);
   },
 
   triggerDislike: () => {
-    const { controls } = get();
-    if (!controls) return;
+    const { controls, currentCard } = get();
+    if (!controls || !currentCard) return;
 
     set((state) => ({
       previousActions: [...state.previousActions, "dislike"],
+      dislikedCards: [...state.dislikedCards, currentCard],
     }));
     controls.start({
       x: -150,
@@ -79,6 +84,7 @@ export const useCardStore = create<CardState>((set, get) => ({
       transition: { duration: 0.3, ease: "easeOut" },
     });
     console.log("you clicked Nope");
+    console.log("disliked cards after pressing NO:", get().dislikedCards);
   },
 
   triggerUndo: () => {
@@ -86,7 +92,22 @@ export const useCardStore = create<CardState>((set, get) => ({
     if (!controls) return;
 
     if (previousActions.length > 0) {
-      set((state) => ({ previousActions: state.previousActions.slice(0, -1) }));
+      const lastAction = previousActions[previousActions.length - 1];
+
+      set((state) => {
+        const newState: Partial<CardState> = {
+          previousActions: state.previousActions.slice(0, -1),
+        };
+
+        if (lastAction === "like" && state.likedCards.length > 0) {
+          newState.likedCards = state.likedCards.slice(0, -1);
+        } else if (lastAction === "dislike" && state.dislikedCards.length > 0) {
+          newState.dislikedCards = state.dislikedCards.slice(0, -1);
+        }
+
+        return newState;
+      });
+
       controls.start({
         x: 0,
         opacity: 1,
@@ -101,6 +122,8 @@ export const useCardStore = create<CardState>((set, get) => ({
     } else {
       console.log("Nothing to undo");
     }
+    console.log("disliked cards after undo", get().dislikedCards);
+    console.log("liked cards after undo", get().likedCards);
   },
 
   triggerNextCard: () => {
