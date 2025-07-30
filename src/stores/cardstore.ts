@@ -11,8 +11,8 @@ interface CardState {
   previousActions: string[];
   undoPending: boolean;
   lastUndoAction: string | null;
-
   currentCard: Card | null;
+  isCardStackEmpty: boolean;
 
   setCards: (cards: Card[]) => void;
   setControls: (controls: ReturnType<typeof useAnimation>) => void;
@@ -34,6 +34,7 @@ export const useCardStore = create<CardState>((set, get) => ({
   currentCard: null,
   undoPending: false,
   lastUndoAction: null,
+  isCardStackEmpty: false,
 
   setCards: (cards) => {
     const currentCard = cards.length > 0 ? cards[0] : null;
@@ -139,14 +140,21 @@ export const useCardStore = create<CardState>((set, get) => ({
   triggerNextCard: () => {
     set((state) => {
       const newIndex = state.currentCardIdx + 1;
-      const newCard =
-        state.cards.length > 0 && newIndex < state.cards.length
-          ? state.cards[newIndex]
-          : null;
+
+      if (newIndex >= state.cards.length) {
+        return {
+          currentCardIdx: state.cards.length,
+          currentCard: null,
+          isCardStackEmpty: true,
+        };
+      }
+
+      const newCard = state.cards[newIndex];
 
       return {
         currentCardIdx: newIndex,
         currentCard: newCard,
+        isCardStackEmpty: false,
       };
     });
   },

@@ -7,7 +7,8 @@ import CardItem from "../components/CardItem";
 
 const CardStack = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { setCards, currentCard, triggerNextCard } = useCardStore();
+  const { setCards, currentCard, triggerNextCard, isCardStackEmpty } =
+    useCardStore();
 
   useEffect(() => {
     const formattedCards: Card[] = catData.map((cat) => ({
@@ -45,32 +46,40 @@ const CardStack = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      {!currentCard && <div>No cards</div>}
-      <div className="relative w-full max-w-sm">
-        {/* Next card positioned underneath */}
-        {nextCard && (
-          <div className="absolute inset-0 z-0">
-            <CardItem
-              key={`next-${nextCardIdx}`}
-              card={nextCard}
-              onSwipeComplete={() => {}}
-            />
-          </div>
-        )}
-
-        {/* Current card on top */}
-        <AnimatePresence>
-          {currentCard && (
-            <div className="relative z-10">
+      {!currentCard && !isCardStackEmpty && <div>Loading cats...</div>}
+      {isCardStackEmpty ? (
+        <div className="flex flex-col items-center">
+          <h2 className="text-xl font-bold mb-4">No more cats to swipe!</h2>
+          <p>
+            You've gone through all available cats. Please check again later.
+          </p>
+        </div>
+      ) : (
+        <div className="relative w-full max-w-sm">
+          {nextCard && (
+            <div className="absolute inset-0 z-0">
               <CardItem
-                key={currentIndex}
-                card={currentCard}
-                onSwipeComplete={triggerNextCard}
+                key={`next-${nextCardIdx}`}
+                card={nextCard}
+                onSwipeComplete={() => {}}
               />
             </div>
           )}
-        </AnimatePresence>
-      </div>
+
+          {/* Current card on top */}
+          <AnimatePresence>
+            {currentCard && (
+              <div className="relative z-10">
+                <CardItem
+                  key={currentIndex}
+                  card={currentCard}
+                  onSwipeComplete={triggerNextCard}
+                />
+              </div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
     </div>
   );
 };
