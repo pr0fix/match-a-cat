@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Card } from "../types";
+import type { Card } from "../utils/types";
 import { useCardStore } from "../stores/cardStore";
 import catData from "../cats.json";
 import { AnimatePresence } from "framer-motion";
@@ -61,7 +61,6 @@ const CardStack = () => {
               <CardItem
                 key={`next-${nextCardIdx}`}
                 card={nextCard}
-                onSwipeComplete={() => {}}
               />
             </div>
           )}
@@ -73,7 +72,6 @@ const CardStack = () => {
                 <CardItem
                   key={currentIndex}
                   card={currentCard}
-                  onSwipeComplete={triggerNextCard}
                 />
               </div>
             )}

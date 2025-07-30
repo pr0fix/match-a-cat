@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { useAnimation } from "framer-motion";
-import type { Card } from "../types";
+import type { Card } from "../utils/types";
 
 interface CardState {
   cards: Card[];

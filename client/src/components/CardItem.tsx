@@ -4,14 +4,13 @@ import Buttons from "./Buttons";
 import Instruction from "./Instruction";
 import { useCardStore } from "../stores/cardStore";
 import { useEffect } from "react";
-import type { Card } from "../types";
+import type { Card } from "../utils/types";
 
 interface CardProps {
   card: Card;
-  onSwipeComplete: () => void;
 }
 
-const CardItem = ({ card, onSwipeComplete }: CardProps) => {
+const CardItem = ({ card }: CardProps) => {
   const controls = useAnimation();
   const {
     setControls,
