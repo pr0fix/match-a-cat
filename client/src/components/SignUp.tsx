@@ -2,6 +2,8 @@ import * as yup from "yup";
 import { useAuthStore } from "../stores/authStore";
 import type { SignUpCredentials } from "../utils/types";
 import { Formik } from "formik";
+import { Link } from "react-router";
+
 const validationSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   username: yup.string().required("Username is required"),
@@ -17,8 +19,8 @@ const SignUp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
         <Formik
           validationSchema={validationSchema}
           initialValues={{ name: "", username: "", password: "" }}
@@ -32,86 +34,68 @@ const SignUp = () => {
             errors,
             touched,
           }) => (
-            <div>
+            <div className="flex flex-col bg-amber-50 p-6 sm:p-8 md:p-10 rounded-xl shadow-lg">
+              <h1 className="text-center mb-6 text-xl sm:text-2xl md:text-3xl font-bold">
+                Create a Catter account
+              </h1>
               <input
                 type="text"
                 placeholder="Name"
                 onChange={handleChange("name")}
                 onBlur={handleBlur("name")}
                 value={values.name}
-                className="my-2"
+                className="p-2 sm:p-3 md:p-4 mb-1 outline text-sm md:text-base rounded w-full"
+                onError={() => touched.name && Boolean(errors.name)}
               />
-
-              {/* <TextField
-                fullWidth
-                placeholder="Name"
-                variant="outlined"
-                onChange={handleChange("name")}
-                onBlur={handleBlur("name")}
-                value={values.name}
-                error={touched.name && Boolean(errors.name)}
-                helperText={touched.name && errors.name}
-                className="my-2"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#6F4E37",
-                    },
-                  },
-                }}
-              />
-              <TextField
-                fullWidth
+              {touched.name && errors.name && (
+                <div className="text-red-500 text-[12px] md:text-sm">
+                  {errors.name}
+                </div>
+              )}
+              <input
+                type="text"
                 placeholder="Username"
-                variant="outlined"
                 onChange={handleChange("username")}
                 onBlur={handleBlur("username")}
                 value={values.username}
-                error={touched.username && Boolean(errors.username)}
-                helperText={touched.username && errors.username}
-                className="my-2"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#6F4E37",
-                    },
-                  },
-                }}
+                className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full"
+                onError={() => touched.username && Boolean(errors.username)}
               />
-              <TextField
-                fullWidth
-                placeholder="Password"
+              {touched.username && errors.username && (
+                <div className="text-red-500 text-[12px] md:text-sm">
+                  {errors.username}
+                </div>
+              )}
+              <input
                 type="password"
-                variant="outlined"
+                placeholder="Password"
                 onChange={handleChange("password")}
                 onBlur={handleBlur("password")}
                 value={values.password}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
-                className="my-2"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#6F4E37",
-                    },
-                  },
-                }}
+                className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full"
+                onError={() => touched.password && Boolean(errors.password)}
               />
-              <Button
-                fullWidth
-                className="bg-primary-main text-white font-bold"
+              {touched.password && errors.password && (
+                <div className="text-red-500 text-[12px] md:text-sm">
+                  {errors.password}
+                </div>
+              )}
+              <button
+                type="submit"
+                className="w-full font-bold mt-8 border-2 p-2 sm:p-3 md:p-4 rounded text-base md:text-lg hover:bg-amber-100 transition-colors"
                 onClick={() => handleSubmit()}
               >
                 Sign Up
-              </Button>
+              </button>
+
               <Link
                 to="/login"
                 className="font-bold text-primary-main no-underline text-center"
               >
-                <Typography className="font-bold pt-5">
+                <p className="font-bold pt-6 text-xs sm:text-sm md:text-base">
                   Already have an account? Sign in
-                </Typography>
-              </Link> */}
+                </p>
+              </Link>
             </div>
           )}
         </Formik>
