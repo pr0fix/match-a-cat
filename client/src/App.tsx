@@ -4,6 +4,7 @@ import CardStack from "./components/CardStack";
 import useArrowKeys from "./hooks/useArrowKeys";
 import { useAuthStore } from "./stores/authStore";
 import { useEffect } from "react";
+import Logout from "./components/Logout";
 
 const App = () => {
   const { isAuthenticated } = useAuthStore();
@@ -14,7 +15,18 @@ const App = () => {
     !isAuthenticated && navigate("/login");
   }, [isAuthenticated]);
 
-  return <>{isAuthenticated && <CardStack />}</>;
+  return (
+    <>
+      {isAuthenticated && (
+        <div>
+          <div className="absolute top-4 right-4">
+            <Logout />
+          </div>
+          <CardStack />
+        </div>
+      )}
+    </>
+  );
 };
 
 export default App;

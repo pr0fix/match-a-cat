@@ -5,7 +5,11 @@ const Logout = () => {
 
   return (
     <>
-      <button type="button" onClick={() => logout()}>
+      <button
+        type="button"
+        onClick={() => logout()}
+        className="font-bold border-2 p-2 rounded text-base"
+      >
         Log out
       </button>
     </>

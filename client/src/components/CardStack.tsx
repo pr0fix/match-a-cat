@@ -4,7 +4,6 @@ import { useCardStore } from "../stores/cardStore";
 import catData from "../cats.json";
 import { AnimatePresence } from "framer-motion";
 import CardItem from "../components/CardItem";
-import Logout from "./Logout";
 
 const CardStack = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -72,7 +71,6 @@ const CardStack = () => {
           </AnimatePresence>
         </div>
       )}
-      <Logout/>
     </div>
   );
 };

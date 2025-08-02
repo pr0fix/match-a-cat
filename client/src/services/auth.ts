@@ -1,6 +1,6 @@
 import axios from "axios";
 import type { LoginCredentials, SignUpCredentials } from "../utils/types";
-import { BASE_URL } from "../utils/constants";
+import { AUTH_BASE_URL } from "../utils/constants";
 
 let token: string | null = null;
 
@@ -18,7 +18,7 @@ const getToken = () => {
 };
 
 const login = async (credentials: LoginCredentials) => {
-  const res = await axios.post(`${BASE_URL}/login`, credentials);
+  const res = await axios.post(`${AUTH_BASE_URL}/login`, credentials);
   if (res.data.token) {
     setToken(res.data.token);
   }
@@ -26,7 +26,7 @@ const login = async (credentials: LoginCredentials) => {
 };
 
 const signup = async (credentials: SignUpCredentials) => {
-  const res = await axios.post(`${BASE_URL}/sign-up`, credentials);
+  const res = await axios.post(`${AUTH_BASE_URL}/sign-up`, credentials);
 
   if (res.data.token) {
     setToken(res.data.token);
