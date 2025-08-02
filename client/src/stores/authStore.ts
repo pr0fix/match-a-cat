@@ -9,8 +9,17 @@ interface AuthState {
   error: string | null;
   isAuthenticated: boolean;
 
-  signup: (username: string, name: string, password: string) => Promise<void>;
-  login: (username: string, password: string) => Promise<void>;
+  signup: (
+    username: string,
+    name: string,
+    password: string,
+    navigate: (path: string) => void
+  ) => Promise<void>;
+  login: (
+    username: string,
+    password: string,
+    navigate: (path: string) => void
+  ) => Promise<void>;
   logout: () => void;
   clearError: () => void;
 }
@@ -23,11 +32,12 @@ export const useAuthStore = create<AuthState>()(
       error: null,
       isAuthenticated: false,
 
-      signup: async (username, name, password) => {
+      signup: async (username, name, password, navigate) => {
         set({ isLoading: true, error: null });
         try {
           const user = await auth.signup({ username, name, password });
           set({ user, isAuthenticated: true, isLoading: false });
+          navigate("/");
         } catch (error: unknown) {
           const errorMessage =
             error instanceof Error
@@ -37,11 +47,12 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      login: async (username, password) => {
+      login: async (username, password, navigate) => {
         set({ isLoading: true, error: null });
         try {
           const user = await auth.login({ username, password });
           set({ user, isAuthenticated: true, isLoading: false });
+          navigate("/");
         } catch (error) {
           const errorMessage =
             error instanceof Error

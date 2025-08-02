@@ -26,7 +26,7 @@ const login = async (credentials: LoginCredentials) => {
 };
 
 const signup = async (credentials: SignUpCredentials) => {
-  const res = await axios.post(`${BASE_URL}/signup`, credentials);
+  const res = await axios.post(`${BASE_URL}/sign-up`, credentials);
 
   if (res.data.token) {
     setToken(res.data.token);

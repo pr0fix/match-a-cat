@@ -33,7 +33,7 @@ router.post(
 
 // sign up route
 router.post(
-  "/signup",
+  "/sign-up",
   async (req: Request<{}, {}, SignupRequestBody>, res: Response) => {
     const { username, name, password } = req.body;
     try {

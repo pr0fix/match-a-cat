@@ -1,2 +1,3 @@
 - add some AI that generates the images and bios and such automatically so it's an infinite scroller? or make registration and have users add their own bios and stuff
-- add formik to login/signup and yup validation
+- add highlighted borders to input fields on login & signup
+- show error when password or username is incorrect

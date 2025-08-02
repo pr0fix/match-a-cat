@@ -1,14 +1,20 @@
+import { useNavigate } from "react-router";
 import "./App.css";
 import CardStack from "./components/CardStack";
-import Login from "./components/Login";
 import useArrowKeys from "./hooks/useArrowKeys";
 import { useAuthStore } from "./stores/authStore";
+import { useEffect } from "react";
 
-function App() {
+const App = () => {
   const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
   useArrowKeys();
 
-  return <>{isAuthenticated ? <CardStack /> : <Login />}</>;
-}
+  useEffect(() => {
+    !isAuthenticated && navigate("/login");
+  }, [isAuthenticated]);
+
+  return <>{isAuthenticated && <CardStack />}</>;
+};
 
 export default App;

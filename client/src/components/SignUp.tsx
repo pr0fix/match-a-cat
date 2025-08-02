@@ -1,8 +1,8 @@
 import * as yup from "yup";
 import { useAuthStore } from "../stores/authStore";
 import type { SignUpCredentials } from "../utils/types";
-import { Formik } from "formik";
-import { Link } from "react-router";
+import { Form, Formik } from "formik";
+import { Link, useNavigate } from "react-router";
 
 const validationSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -12,10 +12,11 @@ const validationSchema = yup.object().shape({
 
 const SignUp = () => {
   const { signup } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSignUp = async (values: SignUpCredentials) => {
     const { name, username, password } = values;
-    signup(name, username, password);
+    signup(name, username, password, navigate);
   };
 
   return (
@@ -26,17 +27,10 @@ const SignUp = () => {
           initialValues={{ name: "", username: "", password: "" }}
           onSubmit={handleSignUp}
         >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-          }) => (
-            <div className="flex flex-col bg-amber-50 p-6 sm:p-8 md:p-10 rounded-xl shadow-lg">
+          {({ values, errors, touched, handleChange, handleBlur }) => (
+            <Form className="flex flex-col bg-[var(--matcha-cream)] p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl">
               <h1 className="text-center mb-6 text-xl sm:text-2xl md:text-3xl font-bold">
-                Create a Catter account
+                Create a Match-A-Cat account
               </h1>
               <input
                 type="text"
@@ -82,8 +76,7 @@ const SignUp = () => {
               )}
               <button
                 type="submit"
-                className="w-full font-bold mt-8 border-2 p-2 sm:p-3 md:p-4 rounded text-base md:text-lg hover:bg-amber-100 transition-colors"
-                onClick={() => handleSubmit()}
+                className="w-full font-bold mt-8 border-2 p-2 sm:p-3 md:p-4 rounded text-base md:text-lg"
               >
                 Sign Up
               </button>
@@ -96,7 +89,7 @@ const SignUp = () => {
                   Already have an account? Sign in
                 </p>
               </Link>
-            </div>
+            </Form>
           )}
         </Formik>
       </div>
