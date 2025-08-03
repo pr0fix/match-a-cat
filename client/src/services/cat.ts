@@ -2,11 +2,11 @@ import axios from "axios";
 import { CAT_BASE_URL } from "../utils/constants";
 import auth from "./auth";
 
-const getDailyCats = async (userId: string) => {
+const getDailyCats = async () => {
   try {
     const userToken = auth.getToken();
     const res = await axios.get(`${CAT_BASE_URL}/daily`, {
-      headers: { Authorization: `Bearer ${userToken}` },
+      headers: { Authorization: userToken },
     });
     console.log(res.data);
     return res.data;
@@ -26,3 +26,5 @@ const getDailyCats = async (userId: string) => {
     };
   }
 };
+
+export default { getDailyCats };

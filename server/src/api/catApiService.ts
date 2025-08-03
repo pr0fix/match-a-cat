@@ -44,7 +44,7 @@ const extractTraits = (breed: any): string[] => {
     traits.push(...breed.temperament.split(", ").slice(0, 3));
   }
 
-  if (breed.origin) traits.push(`From ${breed.origin}`);
+  if (breed.origin) traits.push(breed.origin);
 
   return traits;
 };

@@ -5,6 +5,7 @@ import useArrowKeys from "./hooks/useArrowKeys";
 import { useAuthStore } from "./stores/authStore";
 import { useEffect } from "react";
 import Logout from "./components/Logout";
+import cat from "./services/cat";
 
 const App = () => {
   const { isAuthenticated } = useAuthStore();
@@ -13,6 +14,21 @@ const App = () => {
 
   useEffect(() => {
     !isAuthenticated && navigate("/login");
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    const fetchDailyCats = async () => {
+      try {
+        await cat.getDailyCats();
+        console.log("Daily cats fetched successfully");
+      } catch (error) {
+        console.error("Error fetching daily cats:", error);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchDailyCats();
+    }
   }, [isAuthenticated]);
 
   return (
