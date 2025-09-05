@@ -25,6 +25,7 @@ const CardItem = ({ card }: CardProps) => {
     setControls(controls);
   }, [controls, setControls]);
 
+  // Sets the animation of card items
   useEffect(() => {
     if (undoPending && lastUndoAction) {
       controls.set({

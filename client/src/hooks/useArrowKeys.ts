@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useCardStore } from "../stores/cardStore";
 
+/**
+ * Event listener hook to capture arrow key presses
+ * for users to be able to swipe cards with their keyboard
+ */
 const useArrowKeys = () => {
   const { triggerLike, triggerDislike, triggerUndo } = useCardStore();
 

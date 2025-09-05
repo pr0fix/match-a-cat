@@ -35,8 +35,8 @@ export const useAuthStore = create<AuthState>()(
       signup: async (username, name, password, navigate) => {
         set({ isLoading: true, error: null });
         try {
-          const user = await auth.signup({ username, name, password });
-          set({ user, isAuthenticated: true, isLoading: false });
+          const response = await auth.signup({ username, name, password });
+          set({ user: response.user, isAuthenticated: true, isLoading: false });
           navigate("/");
         } catch (error: unknown) {
           const errorMessage =
@@ -50,8 +50,8 @@ export const useAuthStore = create<AuthState>()(
       login: async (username, password, navigate) => {
         set({ isLoading: true, error: null });
         try {
-          const user = await auth.login({ username, password });
-          set({ user, isAuthenticated: true, isLoading: false });
+          const response = await auth.login({ username, password });
+          set({ user: response.user, isAuthenticated: true, isLoading: false });
           navigate("/");
         } catch (error) {
           const errorMessage =

@@ -19,8 +19,10 @@ const App = () => {
   useEffect(() => {
     const fetchDailyCats = async () => {
       try {
-        await cat.getDailyCats();
-        console.log("Daily cats fetched successfully");
+        const res = await cat.getDailyCats();
+        if (res.status === 200) {
+          console.log("Daily cats fetched successfully");
+        }
       } catch (error) {
         console.error("Error fetching daily cats:", error);
       }

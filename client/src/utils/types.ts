@@ -23,3 +23,19 @@ export interface LoginCredentials {
 export interface SignUpCredentials extends LoginCredentials {
   name: string;
 }
+
+export interface AuthResponse {
+  user?: User;
+  success: boolean;
+  message?: string;
+  data?: Record<string, unknown>;
+  status?: number;
+}
+
+export interface CatApiResponse {
+  res: any;
+  status: number | undefined;
+  error?: boolean;
+  message?: string;
+  originalError?: string | unknown;
+}
