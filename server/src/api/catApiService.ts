@@ -26,11 +26,11 @@ const assignRarity = (breed: any): string => {
   if (!breed) return "common";
 
   const rarityMap: Record<string, string> = {
-    Sphynx: "legendary",
+    "Sphynx": "legendary",
     "Scottish Fold": "epic",
-    Bengal: "epic",
+    "Bengal": "epic",
     "Maine Coon": "rare",
-    Siamese: "rare",
+    "Siamese": "rare",
   };
 
   return rarityMap[breed.name] || "common";
