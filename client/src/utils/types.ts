@@ -1,12 +1,14 @@
 export interface Card {
-  id: number;
-  catImage: string;
-  name: string;
-  age: number;
-  type: string;
-  location: string;
+  mongoId: string;
+  imageUrl: string;
   breed: string;
-  gender: string;
+  description: string;
+  rarity: string;
+  traits: string[];
+  name?: string;
+  age?: number;
+  location?: string;
+  gender?: string;
 }
 
 export interface User {
@@ -33,7 +35,7 @@ export interface AuthResponse {
 }
 
 export interface CatApiResponse {
-  res: any;
+  data: any;
   status: number | undefined;
   error?: boolean;
   message?: string;

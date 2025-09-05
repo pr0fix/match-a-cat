@@ -1,28 +1,11 @@
 import { useEffect, useState } from "react";
-import type { Card } from "../utils/types";
 import { useCardStore } from "../stores/cardStore";
-import catData from "../cats.json";
 import { AnimatePresence } from "framer-motion";
 import CardItem from "../components/CardItem";
 
 const CardStack = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { setCards, currentCard, isCardStackEmpty } = useCardStore();
-
-  useEffect(() => {
-    const formattedCards: Card[] = catData.map((cat) => ({
-      id: cat.id,
-      catImage: cat.image,
-      name: cat.name,
-      age: cat.age,
-      type: cat.personality,
-      location: `${cat.city}, ${cat.state}`,
-      breed: cat.breed,
-      gender: cat.gender,
-    }));
-
-    setCards(formattedCards);
-  }, [setCards]);
+  const { currentCard, isCardStackEmpty } = useCardStore();
 
   useEffect(() => {
     const unsubscribe = useCardStore.subscribe((state) => {

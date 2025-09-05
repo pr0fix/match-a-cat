@@ -102,29 +102,26 @@ const CardItem = ({ card }: CardProps) => {
         }}
       >
         <img
-          src={card.catImage}
-          className="rounded-t-sm"
+          src={card.imageUrl}
+          className="rounded-t-sm w-full h-[300px] object-cover"
           id="card-img"
           style={{ pointerEvents: "none" }}
           alt={`${card.name} the cat`}
         />
         <div className="flex gap-2 m-4 mb-2 items-baseline" id="name-container">
-          <h1>{card.name}</h1>
-          <h2>{card.age}</h2>
-          <p className="text-gray-500 text-[10px]">{card.type}</p>
+          <h1>{card.name ? card.name : "Cat McKattington"}</h1>
+          <h2>{card.age ? card.age : "20"} </h2>
         </div>
         <div id="info-container" className="flex gap-4 text-[12px] ml-4">
           <p id="state-address" className="font-semibold">
-            {card.location}
+            {card.location ? card.location : "Texas"}
           </p>
           <p id="breed">{card.breed}</p>
-          <p id="gender">{card.gender}</p>
+          <p id="gender">{card.gender ? card.gender : "Male"}</p>
         </div>
         <Buttons />
       </motion.div>
-      <div className="mt-12 bg-[#EDE8D0]">
-        <Instruction />
-      </div>
+      <Instruction />
     </div>
   );
 };

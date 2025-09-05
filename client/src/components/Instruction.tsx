@@ -44,7 +44,7 @@ const Undo = () => {
 
 const Instruction = () => {
   return (
-    <div className="flex justify-between items-center w-72 h-10 bg-amber-50 border-2 border-black rounded-full px-4">
+    <div className="flex justify-between items-center w-72 h-10 bg-amber-50 border-2 border-black rounded-full px-4 mt-12">
       <Undo />
       <Nope />
       <Like />

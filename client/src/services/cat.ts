@@ -14,7 +14,7 @@ const getDailyCats = async (): Promise<CatApiResponse> => {
       headers: { Authorization: userToken },
     });
 
-    return { res: res.data, status: 200 };
+    return { data: res.data, status: 200 };
   } catch (error) {
     console.error("Error fetching daily cats");
     if (axios.isAxiosError(error)) {
@@ -25,7 +25,7 @@ const getDailyCats = async (): Promise<CatApiResponse> => {
         error: true,
         message,
         status: error.response?.status,
-        res: null,
+        data: null,
       };
     }
     console.error("Unexpected error:", error);
@@ -33,7 +33,7 @@ const getDailyCats = async (): Promise<CatApiResponse> => {
       error: true,
       message: "An unexpected error occurred",
       originalError: error,
-      res: null,
+      data: null,
       status: 500,
     };
   }

@@ -2,6 +2,7 @@ import Cat from "../models/cat";
 import Collection from "../models/collection";
 import catApiService from "../api/catApiService";
 import mongoose from "mongoose";
+import { generateCatDetails } from "../utils/generateCatDetails";
 
 const getDailyCats = async (userId: string, limit = 10) => {
   try {
@@ -29,7 +30,14 @@ const getDailyCats = async (userId: string, limit = 10) => {
         let cat = await Cat.findOne({ id: catData.id });
 
         if (!cat) {
-          cat = new Cat(catData);
+          const catDetails = generateCatDetails();
+          cat = new Cat({
+            ...catData,
+            name: catDetails.name,
+            age: catDetails.age,
+            location: catDetails.location,
+            gender: catDetails.gender,
+          });
           await cat.save();
         }
       }
@@ -68,7 +76,7 @@ const collectCat = async (userId: string, catId: string) => {
         cats: [catObjectId],
       });
     } else {
-      if (collection.cats.some(id => id.equals(catObjectId))) {
+      if (collection.cats.some((id) => id.equals(catObjectId))) {
         return { error: "Cat already in collection" };
       }
 
