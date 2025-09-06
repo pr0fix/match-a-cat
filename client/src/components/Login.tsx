@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { useAuthStore } from "../stores/authStore";
 import type { LoginCredentials } from "../utils/types";
-import { Formik, Form} from "formik";
+import { Formik, Form } from "formik";
 import { Link, useNavigate } from "react-router";
 
 const validationSchema = yup.object().shape({
@@ -19,7 +19,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[var(--background-50)]">
       <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
         <Formik
           validationSchema={validationSchema}
@@ -27,48 +27,50 @@ const Login = () => {
           onSubmit={handleLogin}
         >
           {({ values, errors, touched, handleChange, handleBlur }) => (
-            <Form className="flex flex-col bg-[var(--matcha-cream)] p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl">
+            <Form className="flex flex-col bg-[var(--background-200)] p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl">
               <h1 className="text-center mb-6 text-xl sm:text-2xl md:text-3xl font-bold">
                 Login to Match-A-Cat
               </h1>
               <input
                 type="text"
+                name="username"
                 placeholder="Username"
                 onChange={handleChange("username")}
                 onBlur={handleBlur("username")}
                 value={values.username}
-                className="p-2 sm:p-3 md:p-4 mb-1 outline text-sm md:text-base rounded w-full"
+                className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full placeholder:text-[var(--text-950)] focus:outline-[var(--accent-600)]"
               />
               {touched.username && errors.username && (
-                <div className="text-red-500 text-[12px] md:text-sm">
+                <div className="text-[var(--error-500)] sm:text-[14px] md:text-[16px]">
                   {errors.username}
                 </div>
               )}
               <input
                 type="password"
+                name="password"
                 placeholder="Password"
                 onChange={handleChange("password")}
                 onBlur={handleBlur("password")}
                 value={values.password}
-                className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full"
+                className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full placeholder:text-[var(--text-950)] focus:outline-[var(--accent-600)]"
               />
               {touched.password && errors.password && (
-                <div className="text-red-500 text-[12px] md:text-sm">
+                <div className="text-[var(--error-500)] sm:text-[14px] md:text-[16px]">
                   {errors.password}
                 </div>
               )}
               <button
                 type="submit"
-                className="w-full font-bold mt-8 border-2 p-2 sm:p-3 md:p-4 rounded text-base md:text-lg"
+                className="form-btn w-full font-bold mt-8 border-2 p-2 sm:p-3 md:p-4 rounded text-base md:text-lg"
               >
                 Login
               </button>
 
               <Link
                 to="/sign-up"
-                className="font-bold text-primary-main no-underline text-center"
+                className="font-bold mt-6 no-underline text-center"
               >
-                <p className="font-bold pt-6 text-xs sm:text-sm md:text-base">
+                <p className="font-bold text-sm sm:text-md md:text-base">
                   Don't have an account? Sign up
                 </p>
               </Link>

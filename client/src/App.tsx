@@ -4,9 +4,9 @@ import CardStack from "./components/CardStack";
 import useArrowKeys from "./hooks/useArrowKeys";
 import { useAuthStore } from "./stores/authStore";
 import { useEffect, useRef } from "react";
-import Logout from "./components/Logout";
 import cat from "./services/cat";
 import { useCardStore } from "./stores/cardStore";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   const { isAuthenticated } = useAuthStore();
@@ -43,11 +43,13 @@ const App = () => {
   return (
     <>
       {isAuthenticated && (
-        <div>
-          <div className="absolute top-4 right-4">
-            <Logout />
+        <div className="min-h-screen bg-[var(--background-50)] flex">
+          <div className="h-screen">
+            <Navbar />
           </div>
-          <CardStack />
+          <div className="flex-1 relative">
+            <CardStack />
+          </div>
         </div>
       )}
     </>

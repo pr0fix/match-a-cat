@@ -3,7 +3,7 @@ import { FaXmark } from "react-icons/fa6";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { useCardStore } from "../stores/cardStore";
 
-const UndoButton = () => {
+const UndoButton: React.FC = () => {
   const triggerUndo = useCardStore((state) => state.triggerUndo);
 
   return (
@@ -17,7 +17,7 @@ const UndoButton = () => {
   );
 };
 
-const DislikeButton = () => {
+const DislikeButton: React.FC = () => {
   const triggerDislike = useCardStore((state) => state.triggerDislike);
 
   return (
@@ -31,7 +31,7 @@ const DislikeButton = () => {
   );
 };
 
-const LikeButton = () => {
+const LikeButton: React.FC = () => {
   const triggerLike = useCardStore((state) => state.triggerLike);
 
   return (
@@ -45,7 +45,7 @@ const LikeButton = () => {
   );
 };
 
-const Buttons = () => {
+const Buttons: React.FC = () => {
   return (
     <div className="flex gap-4 justify-around absolute -bottom-8 left-0 right-0">
       <UndoButton />

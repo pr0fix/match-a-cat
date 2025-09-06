@@ -77,7 +77,7 @@ const CardItem = ({ card }: CardProps) => {
   return (
     <div className="flex justify-center items-center min-h-screen flex-col">
       <motion.div
-        className="border-2 border-black rounded-md bg-amber-50 w-72 h-[450px] relative"
+        className="border-2 border-black rounded-md w-[350px] h-[500px] relative"
         id="card"
         drag="x"
         dragConstraints={{ left: -60, right: 60 }}
