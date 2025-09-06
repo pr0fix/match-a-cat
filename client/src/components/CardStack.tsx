@@ -27,7 +27,7 @@ const CardStack = () => {
   const nextCard = nextCardIdx < cards.length ? cards[nextCardIdx] : null;
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center">
       {!currentCard && !isCardStackEmpty && <div>Loading cats...</div>}
       {isCardStackEmpty ? (
         <div className="flex flex-col items-center">

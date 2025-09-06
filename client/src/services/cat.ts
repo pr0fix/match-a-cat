@@ -10,11 +10,14 @@ import type { CatApiResponse } from "../utils/types";
 const getDailyCats = async (): Promise<CatApiResponse> => {
   try {
     const userToken = auth.getToken();
-    const res = await axios.get(`${CAT_BASE_URL}/daily`, {
-      headers: { Authorization: userToken },
-    });
-
-    return { data: res.data, status: 200 };
+    if (userToken) {
+      const res = await axios.get(`${CAT_BASE_URL}/daily`, {
+        headers: { Authorization: userToken },
+      });
+      return { data: res.data, status: 200 };
+    } else {
+      return { data: null, status: 401 };
+    }
   } catch (error) {
     console.error("Error fetching daily cats");
     if (axios.isAxiosError(error)) {

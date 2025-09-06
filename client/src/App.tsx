@@ -43,11 +43,9 @@ const App = () => {
   return (
     <>
       {isAuthenticated && (
-        <div className="min-h-screen bg-[var(--background-50)] flex">
-          <div className="h-screen">
-            <Navbar />
-          </div>
-          <div className="flex-1 relative">
+        <div className="flex md:flex-row flex-col h-screen bg-[var(--background-50)]">
+          <Navbar />
+          <div className="flex-1">
             <CardStack />
           </div>
         </div>
