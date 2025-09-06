@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { User } from "../utils/types";
 import auth from "../services/auth";
+import type { NavigateFunction } from "react-router";
 
 interface AuthState {
   user: User | null;
@@ -20,7 +21,7 @@ interface AuthState {
     password: string,
     navigate: (path: string) => void
   ) => Promise<void>;
-  logout: () => void;
+  logout: (navigate?: NavigateFunction) => void;
   clearError: () => void;
 }
 
@@ -62,10 +63,17 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      logout: () => {
+      logout: (navigate) => {
         try {
           auth.logout();
-          set({ user: null, isAuthenticated: false });
+          if (navigate) {
+            navigate("/login");
+            setTimeout(() => {
+              set({ user: null, isAuthenticated: false });
+            }, 50);
+          } else {
+            set({ user: null, isAuthenticated: false });
+          }
         } catch (error) {
           const errorMessage =
             error instanceof Error

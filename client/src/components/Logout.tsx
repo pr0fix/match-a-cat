@@ -1,11 +1,13 @@
+import { useNavigate } from "react-router";
 import { useAuthStore } from "../stores/authStore";
 import { MdLogout } from "react-icons/md";
 
 const Logout: React.FC<LogoutItemProps> = ({ isOpen }) => {
   const { logout } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
-    logout();
+    logout(navigate);
   };
 
   return (

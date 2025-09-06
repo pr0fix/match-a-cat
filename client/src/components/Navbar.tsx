@@ -7,6 +7,7 @@ import {
   RxPerson,
 } from "react-icons/rx";
 import Logout from "./Logout";
+import { Link } from "react-router";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -44,14 +45,17 @@ const Navbar: React.FC = () => {
             <MobileNavItem
               icon={<RxHome color="var(--text-950)" size={24} />}
               text="Home"
+              to="/home"
             />
             <MobileNavItem
               icon={<RxHeart color="var(--text-950)" size={24} />}
-              text="Matches"
+              text="Collection"
+              to="/collection"
             />
             <MobileNavItem
               icon={<RxPerson color="var(--text-950)" size={24} />}
               text="Profile"
+              to="/profile"
             />
           </div>
         </div>
@@ -89,21 +93,24 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col space-y-2 flex-grow">
+        <div className="flex flex-col flex-grow">
           <NavItem
             icon={<RxHome color="var(--text-950)" size={24} />}
             text="Home"
             isOpen={isOpen}
+            to={"/"}
           />
           <NavItem
             icon={<RxHeart color="var(--text-950)" size={24} />}
-            text="Matches"
+            text="Collection"
             isOpen={isOpen}
+            to={"/collection"}
           />
           <NavItem
             icon={<RxPerson color="var(--text-950)" size={24} />}
             text="Profile"
             isOpen={isOpen}
+            to={"/profile"}
           />
         </div>
 
@@ -122,14 +129,15 @@ interface NavItemProps {
   icon: React.ReactNode;
   text: string;
   isOpen: boolean;
+  to: string;
 }
 
 // Desktop navigation item
-const NavItem: React.FC<NavItemProps> = ({ icon, text, isOpen }) => {
+const NavItem: React.FC<NavItemProps> = ({ icon, text, isOpen, to }) => {
   return (
-    <a
+    <Link
       className="flex items-center py-2 text-[var(--text-950)] hover:bg-[var(--background-500)] cursor-pointer transition-colors"
-      href="#"
+      to={to}
     >
       <div className="flex justify-center w-[75px] h-[50px] items-center">
         {icon}
@@ -141,25 +149,26 @@ const NavItem: React.FC<NavItemProps> = ({ icon, text, isOpen }) => {
       >
         {text}
       </div>
-    </a>
+    </Link>
   );
 };
 
 // Mobile navigation item
-const MobileNavItem: React.FC<{ icon: React.ReactNode; text: string }> = ({
-  icon,
-  text,
-}) => {
+const MobileNavItem: React.FC<{
+  icon: React.ReactNode;
+  text: string;
+  to: string;
+}> = ({ icon, text, to }) => {
   return (
-    <a
+    <Link
       className="flex items-center py-3 px-6 text-[var(--text-950)] hover:bg-[var(--background-500)] cursor-pointer transition-colors"
-      href="#"
+      to={to}
     >
       <div className="flex items-center justify-center w-[40px] mr-4">
         {icon}
       </div>
       <div>{text}</div>
-    </a>
+    </Link>
   );
 };
 
