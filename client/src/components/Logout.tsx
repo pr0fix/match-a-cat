@@ -2,6 +2,10 @@ import { useNavigate } from "react-router";
 import { useAuthStore } from "../stores/authStore";
 import { MdLogout } from "react-icons/md";
 
+interface LogoutItemProps {
+  isOpen: boolean;
+}
+
 const Logout: React.FC<LogoutItemProps> = ({ isOpen }) => {
   const { logout } = useAuthStore();
   const navigate = useNavigate();
@@ -29,9 +33,5 @@ const Logout: React.FC<LogoutItemProps> = ({ isOpen }) => {
     </button>
   );
 };
-
-interface LogoutItemProps {
-  isOpen: boolean;
-}
 
 export default Logout;
