@@ -9,7 +9,7 @@ const validationSchema = yup.object().shape({
   password: yup.string().required("Password is required"),
 });
 
-const Login = () => {
+const Login = (): React.ReactElement => {
   const { login } = useAuthStore();
   const navigate = useNavigate();
 

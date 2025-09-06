@@ -40,7 +40,6 @@ const SignUp = () => {
                 onBlur={handleBlur("name")}
                 value={values.name}
                 className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full placeholder:text-[var(--text-950)] focus:outline-[var(--accent-600)]"
-                onError={() => touched.name && Boolean(errors.name)}
               />
               {touched.name && errors.name && (
                 <div className="text-[var(--error-500)] sm:text-[14px] md:text-[16px]">
@@ -55,7 +54,6 @@ const SignUp = () => {
                 onBlur={handleBlur("username")}
                 value={values.username}
                 className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full placeholder:text-[var(--text-950)] focus:outline-[var(--accent-600)]"
-                onError={() => touched.username && Boolean(errors.username)}
               />
               {touched.username && errors.username && (
                 <div className="text-[var(--error-500)] sm:text-[14px] md:text-[16px]">
@@ -70,7 +68,6 @@ const SignUp = () => {
                 onBlur={handleBlur("password")}
                 value={values.password}
                 className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full placeholder:text-[var(--text-950)] focus:outline-[var(--accent-600)]"
-                onError={() => touched.password && Boolean(errors.password)}
               />
               {touched.password && errors.password && (
                 <div className="text-[var(--error-500)] sm:text-[14px] md:text-[16px]">

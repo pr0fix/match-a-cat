@@ -96,7 +96,7 @@ const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
         case 429:
           return {
             success: false,
-            message: "Too many login attemps. Please try again later.",
+            message: "Too many login attempts. Please try again later.",
             status: 429,
           };
         case 500:
