@@ -1,7 +1,9 @@
 import * as yup from "yup";
 import { useAuthStore } from "../stores/authStore";
 import type { SignUpCredentials } from "../utils/types";
-import { Formik } from "formik";
+import { Form, Formik } from "formik";
+import { Link, useNavigate } from "react-router";
+
 const validationSchema = yup.object().shape({
   name: yup.string().required("Name is required"),
   username: yup.string().required("Username is required"),
@@ -10,109 +12,87 @@ const validationSchema = yup.object().shape({
 
 const SignUp = () => {
   const { signup } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSignUp = async (values: SignUpCredentials) => {
     const { name, username, password } = values;
-    signup(name, username, password);
+    signup(name, username, password, navigate);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-[var(--background-50)]">
+      <div className="w-full max-w-md md:max-w-lg lg:max-w-xl">
         <Formik
           validationSchema={validationSchema}
           initialValues={{ name: "", username: "", password: "" }}
           onSubmit={handleSignUp}
         >
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-          }) => (
-            <div>
+          {({ values, errors, touched, handleChange, handleBlur }) => (
+            <Form className="flex flex-col bg-[var(--background-200)] p-6 sm:p-8 md:p-10 rounded-xl shadow-2xl">
+              <h1 className="text-center mb-6 text-xl sm:text-2xl md:text-3xl font-bold">
+                Create a Match-A-Cat account
+              </h1>
               <input
                 type="text"
                 placeholder="Name"
+                name="name"
                 onChange={handleChange("name")}
                 onBlur={handleBlur("name")}
                 value={values.name}
-                className="my-2"
+                className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full placeholder:text-[var(--text-950)] focus:outline-[var(--accent-600)]"
+                onError={() => touched.name && Boolean(errors.name)}
               />
-
-              {/* <TextField
-                fullWidth
-                placeholder="Name"
-                variant="outlined"
-                onChange={handleChange("name")}
-                onBlur={handleBlur("name")}
-                value={values.name}
-                error={touched.name && Boolean(errors.name)}
-                helperText={touched.name && errors.name}
-                className="my-2"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#6F4E37",
-                    },
-                  },
-                }}
-              />
-              <TextField
-                fullWidth
+              {touched.name && errors.name && (
+                <div className="text-[var(--error-500)] sm:text-[14px] md:text-[16px]">
+                  {errors.name}
+                </div>
+              )}
+              <input
+                type="text"
+                name="username"
                 placeholder="Username"
-                variant="outlined"
                 onChange={handleChange("username")}
                 onBlur={handleBlur("username")}
                 value={values.username}
-                error={touched.username && Boolean(errors.username)}
-                helperText={touched.username && errors.username}
-                className="my-2"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#6F4E37",
-                    },
-                  },
-                }}
+                className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full placeholder:text-[var(--text-950)] focus:outline-[var(--accent-600)]"
+                onError={() => touched.username && Boolean(errors.username)}
               />
-              <TextField
-                fullWidth
-                placeholder="Password"
+              {touched.username && errors.username && (
+                <div className="text-[var(--error-500)] sm:text-[14px] md:text-[16px]">
+                  {errors.username}
+                </div>
+              )}
+              <input
                 type="password"
-                variant="outlined"
+                name="password"
+                placeholder="Password"
                 onChange={handleChange("password")}
                 onBlur={handleBlur("password")}
                 value={values.password}
-                error={touched.password && Boolean(errors.password)}
-                helperText={touched.password && errors.password}
-                className="my-2"
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#6F4E37",
-                    },
-                  },
-                }}
+                className="p-2 sm:p-3 md:p-4 mt-3 mb-1 outline text-sm md:text-base rounded w-full placeholder:text-[var(--text-950)] focus:outline-[var(--accent-600)]"
+                onError={() => touched.password && Boolean(errors.password)}
               />
-              <Button
-                fullWidth
-                className="bg-primary-main text-white font-bold"
-                onClick={() => handleSubmit()}
+              {touched.password && errors.password && (
+                <div className="text-[var(--error-500)] sm:text-[14px] md:text-[16px]">
+                  {errors.password}
+                </div>
+              )}
+              <button
+                type="submit"
+                className="form-btn w-full font-bold mt-8 border-2 p-2 sm:p-3 md:p-4 rounded text-base md:text-lg"
               >
                 Sign Up
-              </Button>
+              </button>
+
               <Link
                 to="/login"
-                className="font-bold text-primary-main no-underline text-center"
+                className="font-bold mt-6 no-underline text-center"
               >
-                <Typography className="font-bold pt-5">
+                <p className="font-bold text-sm sm:text-md md:text-base">
                   Already have an account? Sign in
-                </Typography>
-              </Link> */}
-            </div>
+                </p>
+              </Link>
+            </Form>
           )}
         </Formik>
       </div>

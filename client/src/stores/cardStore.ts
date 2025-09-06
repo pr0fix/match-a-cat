@@ -123,7 +123,7 @@ export const useCardStore = create<CardState>((set, get) => ({
         newState.currentCard = previousCard;
 
         const cardIdx = state.cards.findIndex(
-          (card) => card.id === previousCard.id
+          (card) => card.mongoId === previousCard.mongoId
         );
 
         if (cardIdx > 0) {

@@ -3,13 +3,13 @@ import { FaXmark } from "react-icons/fa6";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { useCardStore } from "../stores/cardStore";
 
-const UndoButton = () => {
+const UndoButton: React.FC = () => {
   const triggerUndo = useCardStore((state) => state.triggerUndo);
 
   return (
     <div
       id="undo-button"
-      className="border-2 border-black w-16 h-16 rounded-full bg-white flex items-center justify-center"
+      className="border-2 border-black w-16 h-16 rounded-full bg-[var(--primary-950)] flex items-center justify-center"
       onClick={triggerUndo}
     >
       <LuRotateCcw className="w-10 h-10 text-orange-400" />
@@ -17,13 +17,13 @@ const UndoButton = () => {
   );
 };
 
-const DislikeButton = () => {
+const DislikeButton: React.FC = () => {
   const triggerDislike = useCardStore((state) => state.triggerDislike);
 
   return (
     <div
       id="dislike-button"
-      className="border-2 border-black w-16 h-16 rounded-full bg-white flex items-center justify-center"
+      className="border-2 border-black w-16 h-16 rounded-full bg-[var(--primary-950)] flex items-center justify-center"
       onClick={triggerDislike}
     >
       <FaXmark className="w-10 h-10 text-red-600" />
@@ -31,13 +31,13 @@ const DislikeButton = () => {
   );
 };
 
-const LikeButton = () => {
+const LikeButton: React.FC = () => {
   const triggerLike = useCardStore((state) => state.triggerLike);
 
   return (
     <div
       id="like-button"
-      className="border-2 border-black w-16 h-16 rounded-full bg-white flex items-center justify-center"
+      className="border-2 border-black w-16 h-16 rounded-full bg-[var(--primary-950)] flex items-center justify-center"
       onClick={triggerLike}
     >
       <IoCheckmarkSharp className="w-10 h-10 text-green-600" />
@@ -45,7 +45,7 @@ const LikeButton = () => {
   );
 };
 
-const Buttons = () => {
+const Buttons: React.FC = () => {
   return (
     <div className="flex gap-4 justify-around absolute -bottom-8 left-0 right-0">
       <UndoButton />

@@ -28,6 +28,7 @@ const login = async (username: string, password: string) => {
     return {
       token,
       user: {
+        id: user._id,
         username: user.username,
         name: user.name,
       },

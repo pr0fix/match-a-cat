@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { User } from "../utils/types";
 import auth from "../services/auth";
+import type { NavigateFunction } from "react-router";
 
 interface AuthState {
   user: User | null;
@@ -9,9 +10,18 @@ interface AuthState {
   error: string | null;
   isAuthenticated: boolean;
 
-  signup: (username: string, name: string, password: string) => Promise<void>;
-  login: (username: string, password: string) => Promise<void>;
-  logout: () => void;
+  signup: (
+    username: string,
+    name: string,
+    password: string,
+    navigate: (path: string) => void
+  ) => Promise<void>;
+  login: (
+    username: string,
+    password: string,
+    navigate: (path: string) => void
+  ) => Promise<void>;
+  logout: (navigate?: NavigateFunction) => void;
   clearError: () => void;
 }
 
@@ -23,11 +33,12 @@ export const useAuthStore = create<AuthState>()(
       error: null,
       isAuthenticated: false,
 
-      signup: async (username, name, password) => {
+      signup: async (username, name, password, navigate) => {
         set({ isLoading: true, error: null });
         try {
-          const user = await auth.signup({ username, name, password });
-          set({ user, isAuthenticated: true, isLoading: false });
+          const response = await auth.signup({ username, name, password });
+          set({ user: response.user, isAuthenticated: true, isLoading: false });
+          navigate("/");
         } catch (error: unknown) {
           const errorMessage =
             error instanceof Error
@@ -37,11 +48,12 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      login: async (username, password) => {
+      login: async (username, password, navigate) => {
         set({ isLoading: true, error: null });
         try {
-          const user = await auth.login({ username, password });
-          set({ user, isAuthenticated: true, isLoading: false });
+          const response = await auth.login({ username, password });
+          set({ user: response.user, isAuthenticated: true, isLoading: false });
+          navigate("/");
         } catch (error) {
           const errorMessage =
             error instanceof Error
@@ -51,10 +63,17 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
-      logout: () => {
+      logout: (navigate) => {
         try {
           auth.logout();
-          set({ user: null, isAuthenticated: false });
+          if (navigate) {
+            navigate("/login");
+            setTimeout(() => {
+              set({ user: null, isAuthenticated: false });
+            }, 50);
+          } else {
+            set({ user: null, isAuthenticated: false });
+          }
         } catch (error) {
           const errorMessage =
             error instanceof Error

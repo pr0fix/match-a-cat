@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
 import authRouter from "./routes/auth";
+import catRouter from "./routes/cat";
 import { PORT } from "./utils/constants";
 
 const app = express();
@@ -23,7 +24,8 @@ app.get("/ping", (_req: Request, res: Response) => {
   res.send("pong");
 });
 
-app.use("/api", [authRouter]);
+app.use("/api/auth", authRouter);
+app.use("/api/cats", catRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
