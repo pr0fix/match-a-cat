@@ -3,12 +3,12 @@ import CardStack from "./components/CardStack";
 import useArrowKeys from "./hooks/useArrowKeys";
 import { useEffect, useRef } from "react";
 import cat from "./services/cat";
-import { useCardStore } from "./stores/cardStore";
+import { useCatStore } from "./stores/catStore";
 import { useAuthStore } from "./stores/authStore";
 
 const App = () => {
   const { isAuthenticated } = useAuthStore();
-  const { setCards } = useCardStore();
+  const { setCats } = useCatStore();
   useArrowKeys();
   const fetchedRef = useRef(false);
 
@@ -17,7 +17,7 @@ const App = () => {
       try {
         const res = await cat.getDailyCats();
         if (res.status === 200 && res.data) {
-          setCards(res.data);
+          setCats(res.data);
           console.log("Daily cats fetched successfully");
         } else {
           console.error("Failed to fetch daily cats:", res.message);
@@ -31,7 +31,7 @@ const App = () => {
       fetchDailyCats();
       fetchedRef.current = true;
     }
-  }, [isAuthenticated, setCards]);
+  }, [isAuthenticated, setCats]);
 
   return <CardStack />;
 };

@@ -1,4 +1,4 @@
-export interface Card {
+export interface Cat {
   mongoId: string;
   imageUrl: string;
   breed: string;
