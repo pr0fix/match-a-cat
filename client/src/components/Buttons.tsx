@@ -1,10 +1,10 @@
 import { LuRotateCcw } from "react-icons/lu";
 import { FaXmark } from "react-icons/fa6";
 import { IoCheckmarkSharp } from "react-icons/io5";
-import { useCardStore } from "../stores/cardStore";
+import { useCatStore } from "../stores/catStore";
 
 const UndoButton: React.FC = () => {
-  const triggerUndo = useCardStore((state) => state.triggerUndo);
+  const triggerUndo = useCatStore((state) => state.triggerUndo);
 
   return (
     <div
@@ -18,7 +18,7 @@ const UndoButton: React.FC = () => {
 };
 
 const DislikeButton: React.FC = () => {
-  const triggerDislike = useCardStore((state) => state.triggerDislike);
+  const triggerDislike = useCatStore((state) => state.triggerDislike);
 
   return (
     <div
@@ -32,7 +32,7 @@ const DislikeButton: React.FC = () => {
 };
 
 const LikeButton: React.FC = () => {
-  const triggerLike = useCardStore((state) => state.triggerLike);
+  const triggerLike = useCatStore((state) => state.triggerLike);
 
   return (
     <div

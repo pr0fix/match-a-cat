@@ -1,36 +1,36 @@
 import { useEffect, useState } from "react";
-import { useCardStore } from "../stores/cardStore";
+import { useCatStore } from "../stores/catStore";
 import { AnimatePresence } from "framer-motion";
 import CardItem from "../components/CardItem";
 
 const CardStack = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { currentCard, isCardStackEmpty } = useCardStore();
+  const { currentCat, isCatStackEmpty } = useCatStore();
 
   useEffect(() => {
-    const unsubscribe = useCardStore.subscribe((state) => {
-      setCurrentIndex(state.currentCardIdx);
+    const unsubscribe = useCatStore.subscribe((state) => {
+      setCurrentIndex(state.currentCatIdx);
     });
 
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    const store = useCardStore.getState();
-    if (store.cards.length > 0 && !currentCard) {
-      store.setCurrentCardIdx(0);
+    const store = useCatStore.getState();
+    if (store.cats.length > 0 && !currentCat) {
+      store.setCurrentCatIdx(0);
     }
-  }, [currentCard]);
+  }, [currentCat]);
 
-  const cards = useCardStore.getState().cards;
-  const nextCardIdx = currentIndex + 1;
-  const nextCard = nextCardIdx < cards.length ? cards[nextCardIdx] : null;
+  const cats = useCatStore.getState().cats;
+  const nextCatIdx = currentIndex + 1;
+  const nextCat = nextCatIdx < cats.length ? cats[nextCatIdx] : null;
 
   return (
     <div className="flex justify-center items-center">
-      {!currentCard && !isCardStackEmpty && <div>Loading cats...</div>}
-      {isCardStackEmpty ? (
-        <div className="flex flex-col items-center">
+      {!currentCat && !isCatStackEmpty && <div>Loading cats...</div>}
+      {isCatStackEmpty ? (
+        <div className="flex flex-col items-center justify-center h-screen">
           <h2 className="text-xl font-bold mb-4">No more cats to swipe!</h2>
           <p>
             You've gone through all available cats. Please check again later.
@@ -38,17 +38,17 @@ const CardStack = () => {
         </div>
       ) : (
         <div className="relative w-full max-w-sm">
-          {nextCard && (
+          {nextCat && (
             <div className="absolute inset-0 z-0">
-              <CardItem key={`next-${nextCardIdx}`} card={nextCard} />
+              <CardItem key={`next-${nextCatIdx}`} catCard={nextCat} />
             </div>
           )}
 
           {/* Current card on top */}
           <AnimatePresence>
-            {currentCard && (
+            {currentCat && (
               <div className="relative z-10">
-                <CardItem key={currentIndex} card={currentCard} />
+                <CardItem key={currentIndex} catCard={currentCat} />
               </div>
             )}
           </AnimatePresence>

@@ -2,15 +2,15 @@ import { motion, useAnimation } from "framer-motion";
 import type { PanInfo } from "framer-motion";
 import Buttons from "./Buttons";
 import Instruction from "./Instruction";
-import { useCardStore } from "../stores/cardStore";
+import { useCatStore } from "../stores/catStore";
 import { useEffect } from "react";
-import type { Card } from "../utils/types";
+import type { Cat } from "../utils/types";
 
 interface CardProps {
-  card: Card;
+  catCard: Cat;
 }
 
-const CardItem = ({ card }: CardProps) => {
+const CardItem = ({ catCard }: CardProps) => {
   const controls = useAnimation();
   const {
     setControls,
@@ -18,7 +18,7 @@ const CardItem = ({ card }: CardProps) => {
     triggerDislike,
     undoPending,
     lastUndoAction,
-  } = useCardStore();
+  } = useCatStore();
 
   // Set controls in the store when the component mounts
   useEffect(() => {
@@ -45,7 +45,7 @@ const CardItem = ({ card }: CardProps) => {
         },
       });
 
-      useCardStore.setState({ undoPending: false, lastUndoAction: null });
+      useCatStore.setState({ undoPending: false, lastUndoAction: null });
     }
   }, [controls, undoPending, lastUndoAction]);
 
@@ -102,22 +102,22 @@ const CardItem = ({ card }: CardProps) => {
         }}
       >
         <img
-          src={card.imageUrl}
+          src={catCard.imageUrl}
           className="rounded-t-sm w-full h-[300px] object-cover"
           id="card-img"
           style={{ pointerEvents: "none" }}
-          alt={`${card.name} the cat`}
+          alt={`${catCard.name} the cat`}
         />
         <div className="flex gap-2 m-4 mb-2 items-baseline" id="name-container">
-          <h1>{card.name ? card.name : "Cat McKattington"}</h1>
-          <h2>{card.age ? card.age : "20"} </h2>
+          <h1>{catCard.name ? catCard.name : "Cat McKattington"}</h1>
+          <h2>{catCard.age ? catCard.age : "20"} </h2>
         </div>
         <div id="info-container" className="flex gap-4 text-[12px] ml-4">
           <p id="state-address" className="font-semibold">
-            {card.location ? card.location : "Texas"}
+            {catCard.location ? catCard.location : "Texas"}
           </p>
-          <p id="breed">{card.breed}</p>
-          <p id="gender">{card.gender ? card.gender : "Male"}</p>
+          <p id="breed">{catCard.breed}</p>
+          <p id="gender">{catCard.gender ? catCard.gender : "Male"}</p>
         </div>
         <Buttons />
       </motion.div>
