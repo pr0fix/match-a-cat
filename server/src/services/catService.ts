@@ -63,13 +63,12 @@ const saveUserCollection = async (userId: string, catIds: string[]) => {
 
     const cats = await Cat.find({ id: { $in: catIds } });
     const catObjectIds = cats.map((cat) => cat._id);
-
     let collection = await Collection.findOneAndUpdate(
       { userId: userObjectId },
       { cats: catObjectIds },
       { new: true, upsert: true }
     );
-
+    console.log(collection);
     await collection.save();
 
     return { success: true };

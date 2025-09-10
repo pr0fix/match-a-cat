@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
 
       {/* Desktop sidebar */}
       <div
-        className={`hidden md:flex md:flex-col bg-[var(--background-200)] transition-all duration-300 ease-in-out h-full ${
+        className={`hidden md:flex md:flex-col bg-[var(--background-200)] transition-all duration-300 ease-in-out ${
           isOpen ? "w-[250px]" : "w-[75px]"
         }`}
       >

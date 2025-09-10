@@ -16,9 +16,9 @@ const AuthLayout = () => {
   if (!isAuthenticated) return null;
 
   return (
-    <div className="flex md:flex-row flex-col h-screen bg-[var(--background-50)]">
+    <div className="flex md:flex-row flex-col bg-[var(--background-50)] min-h-screen">
       <Navbar />
-      <div className="flex-1">
+      <div className="flex-1 overflow-y-auto w-full">
         <Outlet />
       </div>
     </div>
