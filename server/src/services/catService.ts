@@ -57,35 +57,22 @@ const getDailyCats = async (userId: string, limit = 10) => {
   }
 };
 
-const collectCat = async (userId: string, catId: string) => {
+const saveUserCollection = async (userId: string, catIds: string[]) => {
   try {
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
-    const cat = await Cat.findOne({ id: catId });
-    if (!cat) {
-      return { error: "Cat not found" };
-    }
+    const cats = await Cat.find({ id: { $in: catIds } });
+    const catObjectIds = cats.map((cat) => cat._id);
 
-    const catObjectId = cat._id;
-
-    let collection = await Collection.findOne({ userId: userObjectId });
-
-    if (!collection) {
-      collection = new Collection({
-        userId: userObjectId,
-        cats: [catObjectId],
-      });
-    } else {
-      if (collection.cats.some((id) => id.equals(catObjectId))) {
-        return { error: "Cat already in collection" };
-      }
-
-      collection.cats.push(catObjectId);
-    }
+    let collection = await Collection.findOneAndUpdate(
+      { userId: userObjectId },
+      { cats: catObjectIds },
+      { new: true, upsert: true }
+    );
 
     await collection.save();
 
-    return { success: true, catId };
+    return { success: true };
   } catch (error) {
     console.error("Error collecting cat:", error);
     throw new Error("Failed to collect cat");
@@ -111,4 +98,4 @@ const getUserCollection = async (userId: string) => {
   }
 };
 
-export default { getDailyCats, collectCat, getUserCollection };
+export default { getDailyCats, saveUserCollection, getUserCollection };

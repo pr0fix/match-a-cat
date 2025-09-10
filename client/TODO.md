@@ -5,3 +5,4 @@
 - ai or some markov chain to generate random names for the fetched daily cats
 - Login attempt calculator to cause cooldown on too many login requests
 - client notifications for graceful error handling
+- different colour backgrounds to cards with different rarity (common: blue, rare: pink, special: red, etc.)

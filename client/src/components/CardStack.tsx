@@ -2,10 +2,16 @@ import { useEffect, useState } from "react";
 import { useCatStore } from "../stores/catStore";
 import { AnimatePresence } from "framer-motion";
 import CardItem from "../components/CardItem";
+import useDebouncedAutoSave from "../hooks/useDebouncedAutoSave";
+import catService from "../services/cat";
 
 const CardStack = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { currentCat, isCatStackEmpty } = useCatStore();
+  const { currentCat, isCatStackEmpty, likedCats } = useCatStore();
+  const delay = 5000;
+  const likedCatIds = likedCats.map((cat) => cat.mongoId);
+
+  useDebouncedAutoSave(likedCatIds, catService.saveCollection, delay);
 
   useEffect(() => {
     const unsubscribe = useCatStore.subscribe((state) => {
