@@ -45,7 +45,7 @@ const Navbar: React.FC = () => {
             <MobileNavItem
               icon={<RxHome color="var(--text-950)" size={24} />}
               text="Home"
-              to="/home"
+              to="/"
             />
             <MobileNavItem
               icon={<RxHeart color="var(--text-950)" size={24} />}

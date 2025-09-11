@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CAT_BASE_URL } from "../utils/constants";
 import auth from "./auth";
-import type { Cat, CatApiResponse } from "../utils/types";
+import type { CatApiResponse } from "../utils/types";
 
 /**
  * Handles the API call to the server to fetch daily cats

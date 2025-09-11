@@ -4,6 +4,7 @@ import type { Cat } from "../utils/types";
 
 interface CatState {
   cats: Cat[];
+  catsLoaded: boolean;
   currentCatIdx: number;
   likedCats: Cat[];
   dislikedCats: Cat[];
@@ -26,6 +27,7 @@ interface CatState {
 
 export const useCatStore = create<CatState>((set, get) => ({
   cats: [],
+  catsLoaded: false,
   currentCatIdx: 0,
   likedCats: [],
   dislikedCats: [],
@@ -38,7 +40,7 @@ export const useCatStore = create<CatState>((set, get) => ({
 
   setCats: (cats) => {
     const currentCat = cats.length > 0 ? cats[0] : null;
-    set({ cats, currentCatIdx: 0, currentCat });
+    set({ cats, currentCatIdx: 0, currentCat, catsLoaded: true });
   },
 
   setControls: (controls) => set({ controls }),
