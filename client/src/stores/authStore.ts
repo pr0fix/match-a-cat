@@ -68,6 +68,7 @@ export const useAuthStore = create<AuthState>()(
               user: null,
               isAuthenticated: false,
             });
+            
             return;
           }
           set({ user: response.user, isAuthenticated: true, isLoading: false });

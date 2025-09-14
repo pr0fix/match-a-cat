@@ -1,9 +1,7 @@
 - ability for users to add their own bio and other info
 - add highlighted borders to input fields on login & signup
-- show error when password or username is incorrect
 - token renewal system
 - ai or some markov chain to generate random names for the fetched daily cats
 - Login attempt calculator to cause cooldown on too many login requests
 - client notifications for graceful error handling
 - different colour backgrounds to cards with different rarity (common: blue, rare: pink, special: red, etc.)
-- change cat fetching to not be user initiated but a globally timed action instead so that the database has cats that are not duplicate and each user has same possibility of catching all cats
