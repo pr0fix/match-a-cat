@@ -14,6 +14,18 @@ const collectionSchema = new mongoose.Schema<Collection>(
         ref: "Cat",
       },
     ],
+    dailyCats: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cat",
+      },
+    ],
+    swipedCats: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cat",
+      },
+    ],
     lastRefreshed: {
       type: Date,
       default: Date.now,
@@ -21,6 +33,9 @@ const collectionSchema = new mongoose.Schema<Collection>(
   },
   { versionKey: false }
 );
+
+collectionSchema.index({ userId: 1 });
+collectionSchema.index({ swipedCats: 1 });
 
 collectionSchema.set("toJSON", {
   transform: (_document: any, returnedObject: any) => {

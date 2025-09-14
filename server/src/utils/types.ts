@@ -36,6 +36,8 @@ export interface Collection {
   mongoId?: string;
   userId: mongoose.Types.ObjectId;
   cats: mongoose.Types.ObjectId[];
+  swipedCats: mongoose.Types.ObjectId[];
+  dailyCats: mongoose.Types.ObjectId[];
   lastRefreshed: Date;
 }
 
