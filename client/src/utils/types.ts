@@ -15,6 +15,16 @@ export interface User {
   id: string;
   username: string;
   name: string;
+  dateJoined: Date;
+  lastActive: Date;
+  pictureUrl: string;
+  bio?: string;
+  catsSwiped: number;
+  catsLiked: number;
+  catsPassed: number;
+  currentStreak: number;
+  catsCollected: number;
+  achievements: string[];
 }
 
 export interface LoginCredentials {

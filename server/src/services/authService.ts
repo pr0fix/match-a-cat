@@ -13,6 +13,8 @@ const login = async (username: string, password: string) => {
   try {
     const user = await User.findOne({ username });
 
+    if (user) await user.updateOne({ $set: { lastActive: Date.now() } });
+
     const passwordCorrect =
       user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
@@ -20,18 +22,20 @@ const login = async (username: string, password: string) => {
       return { error: "Invalid username or password" };
     }
 
+    const updatedUser = await User.findOne({ username });
+    
+    if (!updatedUser) {
+      throw new Error("User not found after update");
+    }
+
     const token = generateToken({
-      id: user._id.toString(),
-      username: user.username,
+      id: updatedUser._id.toString(),
+      username: updatedUser.username,
     });
 
     return {
       token,
-      user: {
-        id: user._id,
-        username: user.username,
-        name: user.name,
-      },
+      user: updatedUser,
     };
   } catch (error) {
     console.error("Error during login:", error);

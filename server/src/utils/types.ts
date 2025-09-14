@@ -2,10 +2,20 @@ import mongoose from "mongoose";
 import { Request } from "express";
 
 export interface User {
-  mongoId?: string;
+  mongoId: mongoose.Types.ObjectId;
   username: string;
   name: string;
   passwordHash: string;
+  dateJoined: Date;
+  lastActive: Date;
+  pictureUrl: string;
+  bio?: string;
+  catsSwiped: number;
+  catsLiked: number;
+  catsPassed: number;
+  currentStreak: number;
+  catsCollected: number;
+  achievements: string[];
 }
 
 export interface RequestWithUser extends Request {

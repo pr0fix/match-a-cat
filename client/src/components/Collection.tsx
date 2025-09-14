@@ -8,7 +8,7 @@ const Collection: React.FC = () => {
     };
   });
   return (
-    <div className="flex flex-col p-4 md:p-6 mt-6 md:mt-0">
+    <div className="flex flex-col p-4 md:p-5 mt-6 md:mt-0">
       <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
         Collection
       </h1>

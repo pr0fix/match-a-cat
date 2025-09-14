@@ -80,7 +80,7 @@ const login = async (credentials: LoginCredentials): Promise<AuthResponse> => {
     if (response.data.token) {
       setToken(response.data.token);
     }
-    return { success: true, data: response.data, status: response.status };
+    return { success: true, user: response.data.user, status: response.status };
   } catch (error) {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
@@ -141,7 +141,7 @@ const signup = async (
     return {
       success: true,
       message: "Sign up successful",
-      data: response.data,
+      user: response.data.user,
       status: response.status,
     };
   } catch (error) {
