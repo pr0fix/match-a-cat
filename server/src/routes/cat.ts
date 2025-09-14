@@ -21,20 +21,20 @@ router.get(
 );
 
 router.post(
-  "/collect/:catId",
+  "/collection",
   authenticateToken,
   async (req: RequestWithUser, res: Response) => {
     try {
       const userId = req.user.id;
-      const { catId } = req.params;
+      const { catIds } = req.body;
 
-      const result = await catService.collectCat(userId, catId);
-
-      if (result.error) {
-        return res.status(400).json({ error: result.error });
+      if (!Array.isArray(catIds)) {
+        return res.status(400).json({ error: "catIds must be an array" });
       }
 
-      res.status(200).json({ success: true, catId });
+      const result = await catService.saveUserCollection(userId, catIds);
+
+      res.status(200).json({ success: true, result });
     } catch (error) {
       console.error("Error collecting cat:", error);
       res.status(500).json({ error: "Failed to collect cat" });

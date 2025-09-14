@@ -37,6 +37,15 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const response = await auth.signup({ username, name, password });
+          if (response.status === 400 || response.status === 500) {
+            set({
+              error: response.message,
+              isLoading: false,
+              user: null,
+              isAuthenticated: false,
+            });
+            return;
+          }
           set({ user: response.user, isAuthenticated: true, isLoading: false });
           navigate("/");
         } catch (error: unknown) {
@@ -52,6 +61,15 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const response = await auth.login({ username, password });
+          if (response.status === 401 || response.status === 500) {
+            set({
+              error: response.message,
+              isLoading: false,
+              user: null,
+              isAuthenticated: false,
+            });
+            return;
+          }
           set({ user: response.user, isAuthenticated: true, isLoading: false });
           navigate("/");
         } catch (error) {

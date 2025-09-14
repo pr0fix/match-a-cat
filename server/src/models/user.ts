@@ -8,10 +8,51 @@ const userSchema = new mongoose.Schema<User>(
       required: true,
       unique: true,
     },
-    name: String,
+    name: {
+      type: String,
+      required: true,
+    },
     passwordHash: {
       type: String,
       required: true,
+    },
+    dateJoined: {
+      type: Date,
+      default: Date.now,
+    },
+    lastActive: {
+      type: Date,
+      default: Date.now,
+    },
+    pictureUrl: {
+      type: String,
+      default: "https://placehold.co/200x200",
+    },
+    bio: {
+      type: String,
+    },
+    catsSwiped: {
+      type: Number,
+      default: 0,
+    },
+    catsLiked: {
+      type: Number,
+      default: 0,
+    },
+    catsPassed: {
+      type: Number,
+      default: 0,
+    },
+    currentStreak: {
+      type: Number,
+      default: 0,
+    },
+    catsCollected: {
+      type: Number,
+      default: 0,
+    },
+    achievements: {
+      type: [String],
     },
   },
   { versionKey: false }
