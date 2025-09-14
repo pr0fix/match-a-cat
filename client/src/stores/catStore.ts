@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { useAnimation } from "framer-motion";
 import type { Cat } from "../utils/types";
 
+type PreviousAction = [action: "like" | "dislike", idx: number];
+
 interface CatState {
   cats: Cat[];
   catsLoaded: boolean;
@@ -9,11 +11,13 @@ interface CatState {
   likedCats: Cat[];
   dislikedCats: Cat[];
   controls: ReturnType<typeof useAnimation> | null;
-  previousActions: string[];
+  previousActions: PreviousAction[];
   undoPending: boolean;
-  lastUndoAction: string | null;
+  lastUndoAction: PreviousAction | null;
   currentCat: Cat | null;
   isCatStackEmpty: boolean;
+  cardLocked: boolean;
+  undoCount: number;
 
   setCats: (cats: Cat[]) => void;
   setControls: (controls: ReturnType<typeof useAnimation>) => void;
@@ -37,6 +41,8 @@ export const useCatStore = create<CatState>((set, get) => ({
   undoPending: false,
   lastUndoAction: null,
   isCatStackEmpty: false,
+  cardLocked: false,
+  undoCount: 0,
 
   setCats: (cats) => {
     const currentCat = cats.length > 0 ? cats[0] : null;
@@ -54,16 +60,18 @@ export const useCatStore = create<CatState>((set, get) => ({
       return {
         currentCatIdx: index,
         currentCat: newCat,
+        cardLocked: false,
       };
     });
   },
 
   triggerLike: () => {
-    const { controls, currentCat } = get();
-    if (!controls || !currentCat) return;
+    const { controls, currentCat, cardLocked, currentCatIdx } = get();
+    if (!controls || !currentCat || cardLocked) return;
 
+    set({ cardLocked: true });
     set((state) => ({
-      previousActions: [...state.previousActions, "like"],
+      previousActions: [...state.previousActions, ["like", currentCatIdx]],
       likedCats: [...state.likedCats, currentCat],
     }));
     controls
@@ -79,11 +87,12 @@ export const useCatStore = create<CatState>((set, get) => ({
   },
 
   triggerDislike: () => {
-    const { controls, currentCat } = get();
-    if (!controls || !currentCat) return;
+    const { controls, currentCat, cardLocked, currentCatIdx } = get();
+    if (!controls || !currentCat || cardLocked) return;
 
+    set({ cardLocked: true });
     set((state) => ({
-      previousActions: [...state.previousActions, "dislike"],
+      previousActions: [...state.previousActions, ["dislike", currentCatIdx]],
       dislikedCats: [...state.dislikedCats, currentCat],
     }));
     controls
@@ -99,16 +108,19 @@ export const useCatStore = create<CatState>((set, get) => ({
   },
 
   triggerUndo: () => {
-    const { previousActions } = get();
-    if (previousActions.length === 0) return;
+    const { previousActions, undoCount, currentCatIdx } = get();
+    if (previousActions.length === 0 || undoCount >= 5) return;
 
-    const lastAction = previousActions[previousActions.length - 1];
+    const [lastAction, lastIdx] = previousActions[previousActions.length - 1];
 
-    set({ undoPending: true, lastUndoAction: lastAction });
+    if (lastIdx !== currentCatIdx - 1) return;
+
+    set({ undoPending: true, lastUndoAction: [lastAction, lastIdx] });
 
     set((state) => {
       const newState: Partial<CatState> = {
-        previousActions: state.previousActions.slice(0, -1),
+        undoCount: state.undoCount + 1,
+        previousActions: [],
       };
 
       let previousCat: Cat | null = null;
@@ -123,16 +135,7 @@ export const useCatStore = create<CatState>((set, get) => ({
 
       if (previousCat) {
         newState.currentCat = previousCat;
-
-        const catIdx = state.cats.findIndex(
-          (cat) => cat.mongoId === previousCat.mongoId
-        );
-
-        if (catIdx > 0) {
-          newState.currentCatIdx = catIdx;
-        } else {
-          newState.currentCatIdx = Math.max(0, state.currentCatIdx - 1);
-        }
+        newState.currentCatIdx = lastIdx;
       }
 
       return newState;
@@ -148,6 +151,7 @@ export const useCatStore = create<CatState>((set, get) => ({
           currentCatIdx: state.cats.length,
           currentCat: null,
           isCatStackEmpty: true,
+          cardLocked: false,
         };
       }
 
@@ -157,6 +161,7 @@ export const useCatStore = create<CatState>((set, get) => ({
         currentCatIdx: newIndex,
         currentCat: newCat,
         isCatStackEmpty: false,
+        cardLocked: false,
       };
     });
   },
