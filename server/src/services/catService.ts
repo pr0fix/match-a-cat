@@ -2,24 +2,16 @@ import CatModel from "../models/cat";
 import Collection from "../models/collection";
 import catApiService from "../api/catApiService";
 import mongoose from "mongoose";
-import { generateCatDetails } from "../utils/generateCatDetails";
 import { Cat } from "../utils/types";
 
 const fetchAndStoreDailyCats = async (limit = 50) => {
   try {
     const newCats = await catApiService.fetchRandomCats(limit);
-    
+
     for (const catData of newCats) {
       let cat = await CatModel.findOne({ id: catData.id });
       if (!cat) {
-        const catDetails = generateCatDetails();
-        cat = new CatModel({
-          ...catData,
-          name: catDetails.name,
-          age: catDetails.age,
-          location: catDetails.location,
-          gender: catDetails.gender,
-        });
+        cat = new CatModel({ catData });
         await cat.save();
       }
     }

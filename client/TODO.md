@@ -5,3 +5,4 @@
 - Login attempt calculator to cause cooldown on too many login requests
 - client notifications for graceful error handling
 - different colour backgrounds to cards with different rarity (common: blue, rare: pink, special: red, etc.)
+- fetch and store daily cats implementation needs some initializer which would be called
