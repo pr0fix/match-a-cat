@@ -8,7 +8,7 @@ import { useAuthStore } from "./stores/authStore";
 
 const App = () => {
   const { isAuthenticated } = useAuthStore();
-  const { setCats } = useCatStore();
+  const { setCats, setCollection } = useCatStore();
   useArrowKeys();
   const fetchedRef = useRef(false);
 
@@ -27,8 +27,23 @@ const App = () => {
       }
     };
 
+    const fetchCollection = async () => {
+      try {
+        const res = await cat.getCollection();
+        if (res.status === 200 && res.data.cats) {
+          setCollection(res.data.cats);
+          console.log("Collection fetched successfully");
+        } else {
+          console.error("Failed to fetch collection", res.message);
+        }
+      } catch (error) {
+        console.error("Error fetching collection");
+      }
+    };
+
     if (isAuthenticated && !fetchedRef.current) {
       fetchDailyCats();
+      fetchCollection();
       fetchedRef.current = true;
     }
   }, [isAuthenticated, setCats]);

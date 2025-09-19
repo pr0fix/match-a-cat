@@ -10,6 +10,7 @@ interface CatState {
   currentCatIdx: number;
   likedCats: Cat[];
   dislikedCats: Cat[];
+  collection: Cat[];
   controls: ReturnType<typeof useAnimation> | null;
   previousActions: PreviousAction[];
   undoPending: boolean;
@@ -20,6 +21,7 @@ interface CatState {
   undoCount: number;
 
   setCats: (cats: Cat[]) => void;
+  setCollection: (collection: Cat[]) => void;
   setControls: (controls: ReturnType<typeof useAnimation>) => void;
   setCurrentCatIdx: (index: number) => void;
 
@@ -35,6 +37,7 @@ export const useCatStore = create<CatState>((set, get) => ({
   currentCatIdx: 0,
   likedCats: [],
   dislikedCats: [],
+  collection: [],
   controls: null,
   previousActions: [],
   currentCat: null,
@@ -47,6 +50,11 @@ export const useCatStore = create<CatState>((set, get) => ({
   setCats: (cats) => {
     const currentCat = cats.length > 0 ? cats[0] : null;
     set({ cats, currentCatIdx: 0, currentCat, catsLoaded: true });
+  },
+
+  setCollection: (collection) => {
+    set({ collection });
+    console.log("collection:", collection);
   },
 
   setControls: (controls) => set({ controls }),
